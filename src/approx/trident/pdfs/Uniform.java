@@ -17,7 +17,7 @@ public class Uniform {
 		this.bValue=b;
 		this.nValue=((bValue-aValue)+1);
 	}
-	protected void setAB(double a,double b){
+	public void setAB(double a,double b){
 		this.aValue=a;
 		this.bValue=b;
 		this.nValue=((bValue-aValue)+1);
@@ -27,7 +27,7 @@ public class Uniform {
 	 * a given range 'a' and 'b'
 	 * @see approx.trident.pdfs.Dist#Pd_Function()
 	 */
-	public double Pd_Function() {
+	protected double Pd_Function() {
 		return (1/this.nValue);
 	}
 	/*
@@ -35,7 +35,7 @@ public class Uniform {
 	 * a random value between range a,b
 	 * @see approx.trident.pdfs.Dist#cd_Function()
 	 */
-	public double cd_Function() {
+	protected double cd_Function() {
 		Random rand = new Random();
 		int val= (int) ((int)this.bValue - this.aValue + 1);
 		double test = this.aValue + rand.nextInt(val);
@@ -49,7 +49,7 @@ public class Uniform {
 	 * with in the range 1/a and 1/b
 	 * @see approx.trident.pdfs.Dist#inv_cd_function()
 	 */
-	public double inv_cd_function() {
+	protected double inv_cd_function() {
 		Random rand = new Random();
 		int val= (int) ((int)this.bValue - this.aValue + 1);
 		double test = this.aValue + rand.nextInt(val);
@@ -57,16 +57,5 @@ public class Uniform {
 		return numEr;
 	}
 
-	public double getMean() {
-		return (this.aValue+this.bValue)/2;
-	}
-
-	public double getMedian() {
-		return (this.aValue+this.bValue)/2;
-	}
-
-	public double getVariance() {
-		// TODO Auto-generated method stub
-		return (Math.pow(this.nValue, 2)-1)/12;
-	}
+	
 }
