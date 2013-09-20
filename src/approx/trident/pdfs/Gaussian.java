@@ -9,18 +9,16 @@ public class Gaussian implements Dist{
 	private double sigmaValue;
 	private double muValue;	
 	private double zValue;
-	/*
-	 * When a random variable is specified along with mu and sigma, 
-	 * this is invoked
-	 */
-	protected Gaussian(double z,double mu,double sigma){
+
+	protected Gaussian(double[] xValues, double[] yValues,double z){
+		this.muValue=this.getMean(xValues);
+		this.sigmaValue=Math.sqrt(this.getVariance(yValues));
 		this.zValue=z;
-		this.muValue=mu;
-		this.sigmaValue=sigma;
 	}
+
 	/*
-	 * When a random variable is not specified, 
-	 * this contructor is invoked.
+	 * When mu and sigma(SD) values are specified 
+	 * this is invoked
 	 */
 	protected Gaussian(double mu, double sigma){
 		this.muValue= mu;
@@ -87,13 +85,34 @@ public class Gaussian implements Dist{
 	public double getMean() {
 		return this.muValue;
 	}
-
-	public double getMedian() {
-		return this.muValue;
-	}
-
 	public double getVariance() {
 		return (this.sigmaValue*this.sigmaValue);
+	}
+	/*
+	 * Computes the mean for a given set of values
+	 * @see approx.trident.pdfs.Dist#getMean(double[])
+	 */
+	public double getMean(double[] values) {
+		double[] x_array = values;
+		double xSum=0;
+		for(int i=0;i<x_array.length;i++){
+			xSum+=x_array[i];
+		}
+		return xSum/x_array.length;
+
+	}
+	
+	/*
+	 * Computes the variance for a given set of values
+	 * @see approx.trident.pdfs.Dist#getMean(double[])
+	 */
+
+	public double getVariance(double[] values) {
+		double mean = getMean(values);
+		double temp = 0;
+		for(double a :values)
+			temp += (mean-a)*(mean-a);
+		return temp/values.length;
 	}
 
 }
