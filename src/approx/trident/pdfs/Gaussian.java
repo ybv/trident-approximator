@@ -13,6 +13,9 @@ public class Gaussian implements Dist{
 	 * When a random variable is specified along with mu and sigma, 
 	 * this is invoked
 	 */
+	public Gaussian(){
+		
+	}
 	protected Gaussian(double z,double mu,double sigma){
 		this.zValue=z;
 		this.muValue=mu;
