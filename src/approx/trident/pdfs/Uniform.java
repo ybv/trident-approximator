@@ -15,12 +15,12 @@ public class Uniform {
 	protected Uniform(double a,double b){
 		this.aValue=a;
 		this.bValue=b;
-		this.nValue=((bValue-aValue)+1);
+		this.nValue=(bValue-aValue);
 	}
 	public void setAB(double a,double b){
 		this.aValue=a;
 		this.bValue=b;
-		this.nValue=((bValue-aValue)+1);
+		this.nValue=(bValue-aValue);
 	}
 	/*
 	 * This method computes the PDF of Uniform Distribution for 
@@ -36,12 +36,26 @@ public class Uniform {
 	 * @see approx.trident.pdfs.Dist#cd_Function()
 	 */
 	protected double cd_Function() {
-		Random rand = new Random();
-		int val= (int) ((int)this.bValue - this.aValue + 1);
-		double test = this.aValue + rand.nextInt(val);
-		double numEr= Math.floor(test)-this.aValue+1;
-		return numEr/this.nValue;
+		Random r = new Random();
+		double val= (r.nextDouble() * nValue) + aValue;
+		System.out.println(" The random value is "+ val);
+		double numEr = val-aValue;
+		double denEr = bValue - aValue;
+		return numEr/denEr;
+	}
 
+	public double cd_Function(double val) {
+		if(val<aValue){
+			return 0;
+		}
+		else if(val>=bValue){
+			return 1;
+		}
+		else{
+			double numEr = val-aValue;
+			double denEr = bValue - aValue;
+			return numEr/denEr;
+		}
 	}
 	/*
 	 * 
@@ -57,5 +71,5 @@ public class Uniform {
 		return numEr;
 	}
 
-	
+
 }

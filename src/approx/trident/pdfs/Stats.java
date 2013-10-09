@@ -7,29 +7,34 @@ public class Stats implements Stat_fns {
 	private double aValue;
 	private double bValue;
 	private double nValue;
+	private String distname;
+	
 	/*
 	 * invoked for continuous distributions
 	 * currently implemented only for normal distribution 
 	 */
-	protected Stats(double[] xValues, double[] yValues,String distName){
+	public Stats(double[] xValues,String distName){
 		if(distName.equals("nd")){
-		this.muValue=this.getMean(xValues);
-		this.varValue=Math.sqrt(this.getVariance(yValues));
+			this.muValue=this.getMean(xValues);
+			this.varValue=Math.sqrt(this.getVariance(xValues));
+			this.distname = distName;
 		}
 	}
+	
 	/*
 	 * invoked for discrete distributions
 	 * currently implemented only for uniform distribution
 	 * 
 	 */
-	protected Stats(double a,double b,String distName){
-		
+	public Stats(double a,double b,String distName){
+
 		if(distName.equals("ud")){
-		this.aValue=a;
-		this.bValue=b;
-		this.nValue=((bValue-aValue)+1);
-		this.muValue=this.getMean(aValue,bValue);
-		this.varValue=this.getVariance(nValue);
+			this.aValue=a;
+			this.bValue=b;
+			this.nValue=((bValue-aValue)+1);
+			this.muValue=this.getMean(aValue,bValue);
+			this.varValue=this.getVariance(aValue, bValue);
+			this.distname = distName;
 		}
 	}
 	/*
@@ -47,8 +52,6 @@ public class Stats implements Stat_fns {
 	 * Computes the mean for a given set of values
 	 * @see approx.trident.pdfs.Stat_fns#getMean(double[])
 	 */
-	
-
 	public double getMean(double[] values) {
 		double[] x_array = values;
 		double xSum=0;
@@ -57,26 +60,32 @@ public class Stats implements Stat_fns {
 		}
 		return xSum/x_array.length;
 	}
-	
+
 	public double getMean(double aValue2, double bValue2) {
 		return (aValue2+bValue2)/2;
 	}
 
 
-	public double getVariance(double n) {
-		// TODO Auto-generated method stub
+	public double getVariance(double a, double b) {
+		double n = b-a;
 		return (Math.pow(n, 2)-1)/12;
 	}
+	
 	public void printFuncVals(){
 		Gaussian nd = new Gaussian(this.muValue,Math.sqrt(this.varValue));
 		Uniform ud = new Uniform(this.aValue,this.bValue);
-		System.out.println("The PDF of Gaussian Distribution is"+nd.Pd_Function( ));
-		System.out.println("The CDF of Gaussian Distribution is "+ nd.cd_Function());
-		System.out.println("The inverse CDF of Gaussian Distribution is "+ nd.inv_cd_function());
-		System.out.println("The PDF of Uniform Distribution is"+ud.Pd_Function( ));
-		System.out.println("The CDF of Uniform Distribution  is "+ ud.cd_Function());
-		System.out.println("The inverse of Uniform Distribution CDF is "+ ud.inv_cd_function());
+		if(distname.equals("gd")){
+			System.out.println("The PDF of Gaussian Distribution is"+nd.Pd_Function( ));
+			System.out.println("The CDF of Gaussian Distribution is "+ nd.cd_Function());
+			System.out.println("The inverse CDF of Gaussian Distribution is "+ nd.inv_cd_function());
+		}
+		else if (distname.equals("ud")){
+			System.out.println("The PDF of Uniform Distribution is"+ud.Pd_Function( ));
+			System.out.println("The CDF of Uniform Distribution  is "+ ud.cd_Function());
+			System.out.println("The inverse of Uniform Distribution CDF is "+ ud.inv_cd_function());
+
+		}
 	}
-	
+
 
 }

@@ -18,7 +18,7 @@ public class Gaussian implements Dist{
 		this.sigmaValue=sigma;
 		Random rand = new Random();
 		double zRand = rand.nextDouble();
-		this.zValue=zRand;
+		this.zValue=zRand; // a random variable 
 	}
 	protected void setMu(double mu){
 		this.muValue =mu;
@@ -49,6 +49,9 @@ public class Gaussian implements Dist{
 	public double Pd_Function() {
 		return phiValue((zValue - muValue) / sigmaValue) / sigmaValue;
 	}
+	public double Pd_Function(double val) {
+		return phiValue((val - muValue) / sigmaValue) / sigmaValue;
+	}
 	/*
 	 * This method computes the CDF of Normal Distribution for 
 	 * a given probability zValue , mean muValue and standard deviation sigmaValue
@@ -56,6 +59,9 @@ public class Gaussian implements Dist{
 	 */
 	public double cd_Function() {
 		return Phi((zValue - muValue) / sigmaValue);
+	}
+	public double cd_Function(double val) {
+		return Phi((val - muValue) / sigmaValue);
 	}
 	/*
 	 * 
